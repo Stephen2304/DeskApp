@@ -13,23 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/api/desks")
- */
+#[Route('/api/desks')]
 class DeskController extends AbstractController
 {
-    /**
-     * @Route("/", name="desk_index", methods={"GET"})
-     */
+    #[Route('/', name: 'desk_index', methods: ['GET'])]
     public function index(DeskRepository $deskRepository): Response
     {
         return $this->json($deskRepository->findAll());
     }
 
-    /**
-     * @Route("/", name="desk_create", methods={"POST"})
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[Route('/create', name: 'desk_create', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -43,19 +37,15 @@ class DeskController extends AbstractController
         return $this->json($desk, 201);
     }
 
-    /**
-     * @Route("/{id}", name="desk_show", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[Route('/{id}/show', name: 'desk_show', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(Desk $desk): Response
     {
         return $this->json($desk);
     }
 
-    /**
-     * @Route("/{id}", name="desk_update", methods={"PUT","PATCH"})
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[Route('/{id}', name: 'desk_update', methods: ['PUT', 'PATCH'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function update(Request $request, Desk $desk, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -67,10 +57,8 @@ class DeskController extends AbstractController
         return $this->json($desk);
     }
 
-    /**
-     * @Route("/{id}", name="desk_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[Route('/{id}/delete', name: 'desk_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Desk $desk, EntityManagerInterface $em): Response
     {
         $em->remove($desk);
@@ -78,10 +66,8 @@ class DeskController extends AbstractController
         return $this->json(null, 204);
     }
 
-    /**
-     * @Route("/{id}/reserver", name="desk_reserver", methods={"POST"})
-     * @IsGranted("ROLE_USER")
-     */
+    #[Route('/{id}/reserver', name: 'desk_reserver', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function reserver(Desk $desk, Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -96,10 +82,8 @@ class DeskController extends AbstractController
         return $this->json($reservation, 201);
     }
 
-    /**
-     * @Route("/reservations", name="reservation_index", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
+    #[Route('/reservations', name: 'reservation_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function reservations(Request $request, ReservationRepository $reservationRepository): Response
     {
         $nom = $request->query->get('nom');
@@ -118,10 +102,8 @@ class DeskController extends AbstractController
         return $this->json($reservations);
     }
 
-    /**
-     * @Route("/users/{id}/reservations", name="user_reservations", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
+    #[Route('/users/{id}/reservations', name: 'user_reservations', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function userReservations(int $id, ReservationRepository $reservationRepository): Response
     {
         $reservations = $reservationRepository->createQueryBuilder('r')
@@ -133,10 +115,8 @@ class DeskController extends AbstractController
         return $this->json($reservations);
     }
 
-    /**
-     * @Route("/me/reservations", name="my_reservations", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
+    #[Route('/me/reservations', name: 'my_reservations', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function myReservations(ReservationRepository $reservationRepository): Response
     {
         $user = $this->getUser();

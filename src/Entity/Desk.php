@@ -5,41 +5,27 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class Desk
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
+    #[ORM\Column(type: 'string', length: 100)]
     private $nom;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $localisation;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $capacite;
 
-    /**
-     * @ORM\Column(type="string", enumType=App\Enum\BureauType::class)
-     */
+    #[ORM\Column(type: 'string', enumType: \App\Enum\BureauType::class)]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Reservation", mappedBy="bureau")
-     */
+    #[ORM\OneToMany(targetEntity: 'Reservation', mappedBy: 'bureau')]
     private $reservations;
 
     public function __construct()
