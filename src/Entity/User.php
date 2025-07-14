@@ -130,5 +130,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->reservations;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials(): void
+    {}
 } 

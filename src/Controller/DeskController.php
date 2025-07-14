@@ -117,4 +117,34 @@ class DeskController extends AbstractController
         $reservations = $qb->getQuery()->getResult();
         return $this->json($reservations);
     }
+
+    /**
+     * @Route("/users/{id}/reservations", name="user_reservations", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function userReservations(int $id, ReservationRepository $reservationRepository): Response
+    {
+        $reservations = $reservationRepository->createQueryBuilder('r')
+            ->join('r.utilisateur', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+        return $this->json($reservations);
+    }
+
+    /**
+     * @Route("/me/reservations", name="my_reservations", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function myReservations(ReservationRepository $reservationRepository): Response
+    {
+        $user = $this->getUser();
+        $reservations = $reservationRepository->createQueryBuilder('r')
+            ->where('r.utilisateur = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        return $this->json($reservations);
+    }
 } 
