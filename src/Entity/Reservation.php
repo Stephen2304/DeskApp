@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity]
 class Reservation
@@ -9,6 +10,7 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['reservation:read'])]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reservations')]
@@ -17,15 +19,19 @@ class Reservation
 
     #[ORM\ManyToOne(targetEntity: 'Desk', inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation:read'])]
     private $bureau;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read'])]
     private $date_debut;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['reservation:read'])]
     private $date_fin;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['reservation:read'])]
     private $statut;
 
     public function getId(): ?int

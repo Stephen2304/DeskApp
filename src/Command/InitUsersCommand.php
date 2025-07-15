@@ -11,7 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:init-users',
-    description: 'Crée un utilisateur admin et deux utilisateurs simples.'
+    description: 'Crée un utilisateur admin et un utilisateur simple.'
 )]
 class InitUsersCommand extends Command
 {
@@ -38,12 +38,6 @@ class InitUsersCommand extends Command
                 'email' => 'user1@example.com',
                 'nom' => 'User',
                 'prenom' => 'Un',
-                'roles' => ['ROLE_USER'],
-            ],
-            [
-                'email' => 'user2@example.com',
-                'nom' => 'User',
-                'prenom' => 'Deux',
                 'roles' => ['ROLE_USER'],
             ],
         ];

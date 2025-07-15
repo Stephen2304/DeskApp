@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+    db:
+        image: mysql:8.0
+        container_name: mysql-db
+        environment:
+            MYSQL_DATABASE: deskapp
+            MYSQL_ROOT_PASSWORD: ""
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        volumes:
+            - db_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        networks:
+            - deskapp_net
+
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: symfony-backend
+        environment:
+            DATABASE_URL: mysql://root:@db:3306/deskapp
+            CORS_ALLOW_ORIGIN: http://localhost:3000
+        volumes:
+            - ./:/app
+        ports:
+            - "8000:8000"
+        depends_on:
+            - db
+        networks:
+            - deskapp_net
+        command: php -S 0.0.0.0:8000 -t public
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: nuxt-frontend
+        volumes:
+            - ./frontend:/app
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+        networks:
+            - deskapp_net
+
+volumes:
+    db_data:
+
+networks:
+    deskapp_net:

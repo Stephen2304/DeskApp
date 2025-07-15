@@ -16,34 +16,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthController extends AbstractController
 {
-    #[Route('/api/register', name: 'api_register', methods: ['POST'])]
-    public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator): Response
-    {
-        $data = json_decode($request->getContent(), true);
-        if (!isset($data['email'], $data['password'], $data['nom'], $data['prenom'])) {
-            return $this->json(['error' => 'Champs manquants'], 400);
-        }
-        // Vérifier unicité de l'email
-        if ($em->getRepository(User::class)->findOneBy(['email' => $data['email']])) {
-            return $this->json(['error' => 'Email déjà utilisé'], 400);
-        }
-        $user = new User();
-        $user->setEmail($data['email']);
-        $user->setNom($data['nom']);
-        $user->setPrenom($data['prenom']);
-        $user->setRoles(['ROLE_USER']);
-        $hashedPassword = $passwordHasher->hashPassword($user, $data['password']);
-        $user->setPassword($hashedPassword);
-        // Validation
-        $errors = $validator->validate($user);
-        if (count($errors) > 0) {
-            return $this->json(['error' => (string) $errors], 400);
-        }
-        $em->persist($user);
-        $em->flush();
-        return $this->json(['message' => 'Inscription réussie'], 201);
-    }
-
     #[Route('/api/login', name: 'api_login', methods: ['POST'])]
     public function login(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, JWTTokenManagerInterface $jwtManager): Response
     {

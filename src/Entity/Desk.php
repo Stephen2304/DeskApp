@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity]
 class Desk
@@ -11,9 +12,11 @@ class Desk
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['reservation:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups(['reservation:read'])]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
