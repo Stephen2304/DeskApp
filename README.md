@@ -29,3 +29,12 @@
     ```
 
 C'est tout !
+
+---
+
+## Identifiants de connexion (admin par défaut)
+
+-   **Email** : admin@example.com
+-   **Mot de passe** : password
+
+Utilisez ces identifiants pour vous connecter en tant qu'administrateur.
