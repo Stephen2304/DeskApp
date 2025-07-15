@@ -16,9 +16,15 @@
 
 4. Pour initialiser la base de données :
     ```bash
-    docker exec -it symfony-backend bash
+    docker exec -it symfony-backend
+    ```
+    ```bash
     php bin/console doctrine:migrations:migrate
+    ```
+    ```bash
     php bin/console app:init-users
+    ```
+    ```bash
     php bin/console app:init-reservations
     ```
 
