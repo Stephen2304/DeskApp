@@ -1,0 +1,18 @@
+# config/packages/nelmio_api_doc.yaml
+nelmio_api_doc:
+    documentation:
+        info:
+            title: DeskApp API
+            description: Documentation de l'API pour la gestion des bureaux
+            version: 1.0.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: []
+    areas:
+        default:
+            path_patterns: [ ^/api ]
